@@ -1,0 +1,21 @@
+# Step 1
+What are the basic CMake project requirements?; CMake_minimum_required(VERSION 3.10)<br>project(projectName VERSION 1.0)<br>add_executable(ExecName source_files.cxx); CMake
+How to specify which C++ standard is used in CMake?; 
+add_library(flagLibraryName INTERFACE)<br>target_compile_features(flagLibraryName INTERFACE cxx_std_17)<br>target_link_libraries(projectName PUBLIC flagLibraryName) [Do this for all targets]; CMake
+What is needed to included definitions in a project from CMake?; In file "header.h.in":<br>#define DEFINITION_NAME @CMAKE_DEFINITION_NAME@<br>In file "source.cxx":<br>#include "header.h"<br>In CMakeLists.txt:<br>target_include_directories(projectName PUBLIC ${PROJECT_BINARY_DIR}); CMake
+PUBLIC; The target uses the dependency and it also visible to targets that link to it.
+PRIVATE; The target uses the dependency and it is NOT visible to targets that link to it.
+INTERFACE; The target does NOT used the dependency but it is available to other targets that link to it.; CMake
+
+# Step 2
+What is required to add a library to a project through CMake?; In the libraries directory CMakeLists.txt:<br>add_library(libName libSources.cxx)<br>In the global CMakeLists.txt:<br>target_link_libraries(projectName PUBLIC libName)<br>target_include_directories(projectName PUBLIC "${PROJECT_BINARY_DIR}" "${PROJECT_SOURCE_DIR}/libDir"); CMake
+How do you add a definition in a targets source files through CMake?; target_compile_definitions(targetName PRIVATE "DEFINITION_NAME"); CMake
+How do you define an option in CMake and what is it used for?; option(OPTION_NAME "Descriptive text" ON/OFF)<br>It is a boolean value which can be used to control how a project is compiled through the use of if(); CMake
+How can libraries be combined in CMake?; target_link_libraries(TargetLibName PRIVATE OtherLibName); CMake
+STATIC; A static library which is linked directly into the executable, removing any runtime dependencies; CMake 
+MODULE; A shared library which cannot be linked but needs tos to be dynamically loaded at runtime; CMake
+What are usage requirements used for; They allow for better control over a library or executable's link and include line while also giving more control over the transitive property of targets inside CMake; CMake
+
+# Step 3
+What are interfaces used for in CMake?; Interfaces are used to propagate properties to dependent targets, enabling centralized management of requirements across multiple targets.; CMake
+How to include the directory of a library in CMake?; In library CMakeLists.txt<br>target_include_directories(libraryName INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})<br>In top level CMakeLists.txt, make sure to remove all linking of the library directory; CMake
