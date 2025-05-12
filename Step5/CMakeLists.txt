@@ -50,8 +50,7 @@ set_tests_properties(Usage PROPERTIES PASS_REGULAR_EXPRESSION "Usage:.*number")
 add_test(NAME StandardUse COMMAND Tutorial 4)
 set_tests_properties(StandardUse PROPERTIES PASS_REGULAR_EXPRESSION "4 is 2")
 
-# TODO 9: Add more tests. Create a function called do_test to avoid copy +
-# paste. Test the following values: 4, 9, 5, 7, 25, -25 and 0.0001.
+# Add more tests
 function(do_test target input results)
   add_test(NAME Test_${input} COMMAND ${target} ${input})
   set_tests_properties(Test_${input} PROPERTIES PASS_REGULAR_EXPRESSION ${results})
